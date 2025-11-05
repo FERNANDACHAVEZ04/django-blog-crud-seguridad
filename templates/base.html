@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Mi Blog{% endblock title %}</title>
+    <!-- Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-900">
+    <nav class="bg-blue-600 text-white px-6 py-4 flex justify-between items-center">
+        <a href="{% url 'home' %}" class="font-bold text-lg">Blog CRUD</a>
+        <div class="flex items-center space-x-4">
+            {% if user.is_authenticated %}
+                <span class="text-sm">Hola, <strong>{{ user.username }}</strong></span>
+                <form action="{% url 'logout' %}" method="post" class="inline">
+                    {% csrf_token %}
+                    <button type="submit" class="hover:underline bg-transparent text-white">
+                        Cerrar sesión
+                    </button>
+                </form>
+            {% else %}
+                <a href="{% url 'login' %}" class="mr-4 hover:underline">Iniciar sesión</a>
+                <a href="{% url 'signup' %}" class="hover:underline">Registrarse</a>
+            {% endif %}
+        </div>
+    </nav>
+    <main class="container mx-auto p-6">
+        {% block content %}{% endblock content %}
+    </main>
+</body>
+</html>
